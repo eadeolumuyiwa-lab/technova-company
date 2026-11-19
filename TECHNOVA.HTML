@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101c2c">
+  <title>TechNova | Innovation Without Limits</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- FRONT COVER -->
+  <main id="cover" class="cover">
+    <div class="cover-content">
+
+      <div class="brand cover-brand">
+        <svg class="brand-symbol" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M18 72 L42 25 L58 55 L76 25 L88 72"
+                fill="none" stroke="currentColor" stroke-width="7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M31 72 H70" fill="none" stroke="#d6ad62"
+                stroke-width="5" stroke-linecap="round"/>
+          <circle cx="76" cy="25" r="6" fill="#d6ad62"/>
+        </svg>
+        <span>Tech<span class="brand-accent">Nova</span></span>
+      </div>
+
+      <p class="cover-label">A NEW ERA OF DIGITAL INNOVATION</p>
+      <h1>The Future<br>Starts Here.</h1>
+      <p class="cover-description">
+        Technology. Creativity. Innovation.
+        Discover what we are building.
+      </p>
+
+      <div class="countdown-panel">
+        <p class="countdown-title">OFFICIAL LAUNCH COUNTDOWN</p>
+        <div id="timer" class="timer">Loading...</div>
+        <p class="launch-date">01 January 2027</p>
+      </div>
+
+      <button class="open-button" onclick="openWebsite()">
+        Preview TechNova Website <span>→</span>
+      </button>
+
+      <p class="cover-footer">TECHNOVA • EST. 2026</p>
+    </div>
+  </main>
+
+  <!-- ACTUAL WEBSITE -->
+  <div id="website" class="website hidden">
+
+    <header class="navbar">
+      <a href="#home" class="brand nav-brand">
+        <svg class="brand-symbol" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M18 72 L42 25 L58 55 L76 25 L88 72"
+                fill="none" stroke="currentColor" stroke-width="7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M31 72 H70" fill="none" stroke="#d6ad62"
+                stroke-width="5" stroke-linecap="round"/>
+          <circle cx="76" cy="25" r="6" fill="#d6ad62"/>
+        </svg>
+        <span>Tech<span class="brand-accent">Nova</span></span>
+      </a>
+
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+
+      <nav id="navLinks">
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#about" onclick="closeMenu()">About</a>
+        <a href="#services" onclick="closeMenu()">Services</a>
+        <a href="#projects" onclick="closeMenu()">Projects</a>
+        <a href="#nova" onclick="closeMenu()">Nova AI</a>
+        <a href="#contact" onclick="closeMenu()">Contact</a>
+      </nav>
+    </header>
+
+    <section class="main-hero" id="home">
+      <p class="eyebrow">WELCOME TO TECHNOVA</p>
+      <h1>We Build Digital<br><span>Possibilities.</span></h1>
+      <p>
+        Creating modern websites, software and innovative
+        digital solutions for individuals and businesses.
+      </p>
+      <a href="#services" class="primary-button">Discover Our Services</a>
+    </section>
+
+    <section id="about" class="section">
+      <p class="eyebrow">WHO WE ARE</p>
+      <h2>About TechNova</h2>
+      <p class="section-description">
+        TechNova is a technology company focused on creating
+        modern websites, software and innovative digital
+        solutions for individuals and businesses.
+      </p>
+    </section>
+
+    <section id="services" class="section section-soft">
+      <p class="eyebrow">WHAT WE DO</p>
+      <h2>Our Services</h2>
+
+      <div class="service-grid">
+        <article class="service-card">
+          <div class="service-icon">01</div>
+          <h3>Web Development</h3>
+          <p>Modern, responsive and professional websites.</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">02</div>
+          <h3>Software Development</h3>
+          <p>Digital software solutions designed for real needs.</p>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">03</div>
+          <h3>Mobile App Development</h3>
+          <p>Innovative mobile application experiences.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <p class="eyebrow">OUR WORK</p>
+      <h2>Our Projects</h2>
+      <p class="section-description">
+        Explore the digital solutions created by TechNova.
+      </p>
+
+      <div class="empty-projects">
+        <div class="project-symbol">✦</div>
+        <h3>Projects Coming Soon</h3>
+        <p>Our projects will appear here as they are published.</p>
+      </div>
+    </section>
+
+    <section id="nova" class="section nova-section">
+      <p class="eyebrow">YOUR DIGITAL ASSISTANT</p>
+      <h2>Meet Nova AI</h2>
+      <p class="section-description">
+        Your future digital assistant, designed to help you
+        explore ideas and find useful information.
+      </p>
+
+      <div class="chat-box">
+        <div class="chat-heading">
+          <div class="nova-avatar">N</div>
+          <div>
+            <h3>Nova AI</h3>
+            <span>TechNova Assistant</span>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+          <p class="bot-message">
+            Hello! I'm Nova AI. What would you like to know?
+          </p>
+        </div>
+
+        <div class="chat-input">
+          <input id="userMessage" type="text"
+                 placeholder="Ask Nova something...">
+          <button onclick="sendMessage()">Send</button>
+        </div>
+      </div>
+      <p class="small-note">
+        AI responses will become available when the AI backend is connected.
+      </p>
+    </section>
+
+    <section class="section notification-section">
+      <p class="eyebrow">STAY CONNECTED</p>
+      <h2>TechNova Notifications</h2>
+      <p class="section-description">
+        Enable notifications to receive announcements,
+        launch updates and news about new projects.
+      </p>
+
+      <button class="primary-button" onclick="enableNotifications()">
+        Enable Notifications
+      </button>
+      <p id="notificationStatus" class="small-note"></p>
+    </section>
+
+    <section class="founder-section">
+      <p class="eyebrow">LEADERSHIP</p>
+      <h2>Meet Our CEO</h2>
+      <h3>Adeoluwa Ezekiel Adewunmi</h3>
+      <p>Founder and Chief Executive Officer of TechNova.</p>
+      <p>
+        Passionate about technology, innovation, creativity
+        and building modern digital solutions.
+      </p>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <p class="eyebrow">LET'S CONNECT</p>
+      <h2>Ready to Work With Us?</h2>
+      <p>Get in touch with TechNova today.</p>
+
+      <div class="contact-actions">
+        <a href="tel:+2349015006142" class="contact-button">
+          Call Us
+        </a>
+
+        <a href="https://wa.me/2349015006142?text=Hello%20TechNova%2C%20I%20would%20like%20to%20make%20an%20enquiry."
+           target="_blank" rel="noopener noreferrer"
+           class="contact-button whatsapp-button">
+          WhatsApp Us
+        </a>
+      </div>
+
+      <p class="phone-number">+234 901 500 6142</p>
+    </section>
+
+    <footer>
+      <div class="brand footer-brand">
+        <svg class="brand-symbol" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M18 72 L42 25 L58 55 L76 25 L88 72"
+                fill="none" stroke="currentColor" stroke-width="7"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M31 72 H70" fill="none" stroke="#d6ad62"
+                stroke-width="5" stroke-linecap="round"/>
+          <circle cx="76" cy="25" r="6" fill="#d6ad62"/>
+        </svg>
+        <span>Tech<span class="brand-accent">Nova</span></span>
+      </div>
+      <p>Innovation Without Limits.</p>
+      <p>© 2026 TechNova. All rights reserved.</p>
+      <button class="back-button" onclick="backToCover()">
+        Back to Launch Cover ↑
+      </button>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
