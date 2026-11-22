@@ -1,0 +1,25 @@
+{
+  "name": "technova-company",
+  "version": "1.0.0",
+  "description": "TechNova is a modern technology company website focused on web development, software development, mobile app development, innovative digital solution.",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'",
+    "lint": "echo 'No linter configured'"
+  },
+  "keywords": [
+    "technova",
+    "technology",
+    "web-development",
+    "software-development"
+  ],
+  "author": "AdeolumuyiwaEzekielAdemide",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eadeolumuyiwa-lab/technova-company"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
