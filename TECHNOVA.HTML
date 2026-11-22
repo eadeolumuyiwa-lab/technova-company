@@ -6,6 +6,67 @@
   <meta name="theme-color" content="#101c2c">
   <title>TechNova | Innovation Without Limits</title>
   <link rel="stylesheet" href="style.css">
+
+<style>
+.admin-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #101c2c;
+  color: white;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.admin-box {
+  max-width: 750px;
+  margin: 30px auto;
+  background: #192b40;
+  padding: 25px;
+  border-radius: 15px;
+}
+
+.admin-box input:not([type="checkbox"]),
+.admin-box textarea {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin: 12px 0;
+  box-sizing: border-box;
+  border-radius: 7px;
+  border: 1px solid #52677e;
+}
+
+.admin-box button {
+  padding: 12px 18px;
+  margin: 5px;
+  border: none;
+  border-radius: 7px;
+  background: #d6ad62;
+  color: #101c2c;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.admin-project {
+  background: #263d56;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+}
+
+.admin-project img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+}
+
+.admin-message {
+  color: #d6ad62;
+}
+</style>
+
 </head>
 <body>
 
@@ -197,10 +258,340 @@
       <button class="back-button" onclick="backToCover()">
         Back to Launch Cover ↑
       </button>
-    </footer>
+<button class="back-button" onclick="backToCover()">
+  Back to Launch Cover ↑
+</button>
+
+<!-- PASTE ADMIN BUTTON HERE -->
+<button class="back-button" onclick="openAdmin()">
+  Admin Login
+</button>
+
+</footer>
+    
+
+<!-- TECHNOVA ADMIN PANEL -->
+<div id="adminPanel" class="admin-panel">
+  <div class="admin-box">
+
+    <button onclick="closeAdmin()">Close</button>
+    <h2>TechNova Admin Dashboard</h2>
+
+    <div id="adminLogin">
+      <h3>Administrator Login</h3>
+
+      <form onsubmit="adminLogin(event)">
+        <input
+          type="password"
+          id="adminPassword"
+          placeholder="Enter admin password"
+          required
+        >
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <div id="adminDashboard" style="display:none">
+
+      <h3>Manage Projects</h3>
+
+      <form onsubmit="saveProject(event)">
+        <input type="hidden" id="projectId">
+
+        <input
+          type="text"
+          id="projectTitle"
+          placeholder="Project title"
+          required
+        >
+
+        <textarea
+          id="projectDescription"
+          placeholder="Project description"
+          required
+        ></textarea>
+
+        <input
+          type="url"
+          id="projectImage"
+          placeholder="Project image URL"
+        >
+
+        <input
+          type="url"
+          id="projectLink"
+          placeholder="Project website URL"
+        >
+
+        <label>
+          <input type="checkbox" id="projectPublished" checked>
+          Publish project
+        </label>
+
+        <button type="submit">Save Project</button>
+        <button type="button" onclick="resetProjectForm()">
+          Clear
+        </button>
+      </form>
+
+      <p id="adminMessage" class="admin-message"></p>
+
+      <h3>Existing Projects</h3>
+      <div id="adminProjectList"></div>
+
+      <button onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+</div>
+
 
   </div>
 
   <script src="script.js"></script>
+
+const API = "/api";
+
+function openAdmin() {
+  document.getElementById("adminPanel").style.display = "block";
+}
+
+function closeAdmin() {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+function adminMessage(message) {
+  document.getElementById("adminMessage").textContent = message;
+}
+
+async function adminLogin(event) {
+  event.preventDefault();
+
+  const password = document.getElementById("adminPassword").value;
+
+  try {
+    const response = await fetch(API + "/admin/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({password})
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Login failed");
+      return;
+    }
+
+    document.getElementById("adminLogin").style.display = "none";
+    document.getElementById("adminDashboard").style.display = "block";
+    document.getElementById("adminPassword").value = "";
+
+    loadAdminProjects();
+
+  } catch {
+    alert("Backend connection failed.");
+  }
+}
+
+async function loadAdminProjects() {
+  try {
+    const response = await fetch(API + "/projects");
+
+    if (!response.ok) {
+      adminMessage("Could not load projects.");
+      return;
+    }
+
+    const projects = await response.json();
+    const list = document.getElementById("adminProjectList");
+
+    list.innerHTML = "";
+
+    projects.forEach(project => {
+      const item = document.createElement("div");
+      item.className = "admin-project";
+
+      const title = document.createElement("h3");
+      title.textContent = project.title;
+
+      const description = document.createElement("p");
+      description.textContent = project.description;
+
+      const edit = document.createElement("button");
+      edit.textContent = "Edit";
+      edit.onclick = () => editProject(project);
+
+      const remove = document.createElement("button");
+      remove.textContent = "Delete";
+      remove.onclick = () => deleteProject(project.id);
+
+      item.append(title, description, edit, remove);
+      list.appendChild(item);
+    });
+
+    displayPublicProjects(projects);
+
+  } catch {
+    adminMessage("Unable to load projects.");
+  }
+}
+
+function editProject(project) {
+  document.getElementById("projectId").value = project.id;
+  document.getElementById("projectTitle").value = project.title;
+  document.getElementById("projectDescription").value = project.description;
+  document.getElementById("projectImage").value = project.image_url || "";
+  document.getElementById("projectLink").value = project.project_url || "";
+  document.getElementById("projectPublished").checked = true;
+}
+
+function resetProjectForm() {
+  document.getElementById("projectId").value = "";
+  document.getElementById("projectTitle").value = "";
+  document.getElementById("projectDescription").value = "";
+  document.getElementById("projectImage").value = "";
+  document.getElementById("projectLink").value = "";
+  document.getElementById("projectPublished").checked = true;
+}
+
+async function saveProject(event) {
+  event.preventDefault();
+
+  const id = document.getElementById("projectId").value;
+
+  const project = {
+    title: document.getElementById("projectTitle").value,
+    description: document.getElementById("projectDescription").value,
+    image_url: document.getElementById("projectImage").value,
+    project_url: document.getElementById("projectLink").value,
+    published: document.getElementById("projectPublished").checked
+  };
+
+  try {
+    const response = await fetch(API + "/projects", {
+      method: id ? "PUT" : "POST",
+      headers: {"Content-Type": "application/json"},
+      credentials: "same-origin",
+      body: JSON.stringify(id ? {...project, id} : project)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      adminMessage(data.error || "Could not save project.");
+      return;
+    }
+
+    adminMessage("Project saved successfully.");
+    resetProjectForm();
+    loadAdminProjects();
+
+  } catch {
+    adminMessage("Server connection failed.");
+  }
+}
+
+async function deleteProject(id) {
+  if (!confirm("Delete this project?")) return;
+
+  try {
+    const response = await fetch(
+      API + "/projects?id=" + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        credentials: "same-origin"
+      }
+    );
+
+    if (!response.ok) {
+      adminMessage("Could not delete project.");
+      return;
+    }
+
+    adminMessage("Project deleted.");
+    loadAdminProjects();
+
+  } catch {
+    adminMessage("Server connection failed.");
+  }
+}
+
+async function adminLogout() {
+  await fetch(API + "/admin/logout", {
+    method: "POST",
+    credentials: "same-origin"
+  });
+
+  document.getElementById("adminDashboard").style.display = "none";
+  document.getElementById("adminLogin").style.display = "block";
+
+  resetProjectForm();
+  closeAdmin();
+}
+
+function displayPublicProjects(projects) {
+  const section = document.getElementById("projects");
+  if (!section) return;
+
+  const empty = section.querySelector(".empty-projects");
+  if (empty) empty.remove();
+
+  let container = document.getElementById("publicProjectList");
+
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "publicProjectList";
+    container.className = "service-grid";
+    section.appendChild(container);
+  }
+
+  container.innerHTML = "";
+
+  projects.forEach(project => {
+    const card = document.createElement("article");
+    card.className = "service-card";
+
+    const title = document.createElement("h3");
+    title.textContent = project.title;
+
+    const description = document.createElement("p");
+    description.textContent = project.description;
+
+    card.append(title, description);
+
+    if (project.image_url) {
+      const image = document.createElement("img");
+      image.src = project.image_url;
+      image.alt = project.title;
+      image.style.width = "100%";
+      card.prepend(image);
+    }
+
+    if (project.project_url) {
+      const link = document.createElement("a");
+      link.href = project.project_url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View Project";
+      card.appendChild(link);
+    }
+
+    container.appendChild(card);
+  });
+}
+
+async function loadPublicProjects() {
+  try {
+    const response = await fetch(API + "/projects");
+    if (response.ok) {
+      displayPublicProjects(await response.json());
+    }
+  } catch (error) {
+    console.log("Projects could not be loaded.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadPublicProjects);
+
 </body>
 </html>
