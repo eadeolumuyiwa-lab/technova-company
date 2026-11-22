@@ -1,0 +1,21 @@
+{
+  "name": "technova-company",
+  "version": "1.0.0",
+  "description": "TechNova - A technology company focused on creating modern websites, software and innovative digital solutions",
+  "main": "index.html",
+  "scripts": {
+    "dev": "echo 'Static HTML project - open TECHNOVA.HTML in your browser'",
+    "build": "echo 'No build step required for static HTML project'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eadeolumuyiwa-lab/technova-company.git"
+  },
+  "keywords": [
+    "technova",
+    "web-development",
+    "static-site"
+  ],
+  "author": "AdeolumuyiwaEzekielAdemide",
+  "license": "ISC"
+}
